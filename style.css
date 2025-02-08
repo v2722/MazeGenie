@@ -4,14 +4,20 @@
   box-sizing: border-box;
 }
 
+:root {
+  --cell-size: min(2rem, 4.5vw);
+  --grid-gap: min(2px, 0.5vw);
+  --container-padding: clamp(1rem, 3vw, 2rem);
+}
+
 body {
   font-family: system-ui, -apple-system, sans-serif;
-  background: linear-gradient(135deg, rgb(0, 0, 0) 0%, rgb(28, 28, 28) 50%, rgb(0, 0, 0) 100%);
+  background-color: rgb(243, 244, 246);
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: var(--container-padding);
 }
 
 .container {
@@ -21,36 +27,49 @@ body {
 
 .maze-container {
   background-color: white;
-  padding: 2rem;
+  padding: var(--container-padding);
   border-radius: 0.75rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  width: 100%;
 }
 
 h1 {
   text-align: center;
   color: rgb(31, 41, 55);
-  font-size: 1.875rem;
+  font-size: clamp(1.25rem, 4vw, 1.875rem);
   font-weight: bold;
-  margin-bottom: 1.5rem;
+  margin-bottom: clamp(1rem, 3vw, 1.5rem);
 }
 
 .controls {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: clamp(0.5rem, 2vw, 1rem);
+  margin-bottom: clamp(1rem, 3vw, 1.5rem);
+  justify-content: center;
 }
 
 .btn {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
+  padding: clamp(0.4rem, 1.5vw, 0.5rem) clamp(0.75rem, 2vw, 1rem);
   border: none;
   border-radius: 0.5rem;
   color: white;
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s;
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  flex: 1;
+  min-width: min(150px, 100%);
+  justify-content: center;
+}
+
+@media (min-width: 640px) {
+  .btn {
+    flex: 0 1 auto;
+  }
 }
 
 .btn:disabled {
@@ -59,8 +78,8 @@ h1 {
 }
 
 .btn svg {
-  width: 20px;
-  height: 20px;
+  width: clamp(16px, 4vw, 20px);
+  height: clamp(16px, 4vw, 20px);
 }
 
 .btn-green {
@@ -89,25 +108,28 @@ h1 {
 
 .grid {
   display: grid;
-  gap: 2px;
+  gap: var(--grid-gap);
   background-color: rgb(229, 231, 235);
-  padding: 0.5rem;
+  padding: clamp(0.25rem, 1vw, 0.5rem);
   border-radius: 0.5rem;
   width: fit-content;
   margin: 0 auto;
+  max-width: 100%;
+  overflow: auto;
 }
 
 .grid-row {
   display: flex;
-  gap: 2px;
+  gap: var(--grid-gap);
 }
 
 .cell {
-  width: 2rem;
-  height: 2rem;
+  width: var(--cell-size);
+  height: var(--cell-size);
   border: 1px solid rgb(209, 213, 219);
   transition: background-color 0.2s;
   cursor: pointer;
+  min-width: var(--cell-size);
 }
 
 .cell:hover {
@@ -154,9 +176,41 @@ h1 {
 }
 
 .legend {
-  margin-top: 1.5rem;
+  margin-top: clamp(1rem, 3vw, 1.5rem);
   text-align: center;
   color: rgb(75, 85, 99);
-  font-size: 0.875rem;
+  font-size: clamp(0.75rem, 2vw, 0.875rem);
   line-height: 1.5;
+}
+
+/* Media Queries for different screen sizes */
+@media (max-width: 480px) {
+  :root {
+    --cell-size: 4.5vw;
+    --grid-gap: 1px;
+  }
+
+  .controls {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .legend p {
+    font-size: 0.75rem;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  :root {
+    --cell-size: 3.5vw;
+  }
+}
+
+@media (min-width: 769px) {
+  :root {
+    --cell-size: 2rem;
+  }
 }
